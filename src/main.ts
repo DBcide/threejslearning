@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.ts';
 
 // --- SCENE ---
 const scene = new THREE.Scene();
@@ -66,9 +66,6 @@ scene.add(rectangle);
     // Nom technique : THREE.Mesh (objet de rendu combinant Geometry + Material)
     const torus = new THREE.Mesh(torusGeometry, torusMaterial);
 
-    // Centrer le torus sur l'origine (par défaut il est centré) pour entourer le rectangle
-    torus.position.set(0, 0, 0);
-
     // Si besoin, on peut légèrement tourner le torus pour un meilleur rendu visuel
     torus.rotation.x = Math.PI / 6;
 
@@ -77,12 +74,12 @@ scene.add(rectangle);
 
 // --- LUMIÈRES (nécessaires pour MeshStandardMaterial) ---
 // Nom technique : THREE.AmbientLight, THREE.DirectionalLight
-const ambient = new THREE.AmbientLight(0xffffff, 0.4); // éclairage global doux
-scene.add(ambient);
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.4); // éclairage global doux
+scene.add(ambientLight);
 
-const dir = new THREE.DirectionalLight(0xffffff, 0.8);
-dir.position.set(5, 10, 7.5);
-scene.add(dir);
+const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+directionalLight.position.set(5, 10, 7.5);
+scene.add(directionalLight);
 
 // --- (Optionnel) arêtes du rectangle pour bien voir les coins ---
 // Nom technique : THREE.EdgesGeometry + THREE.LineSegments
@@ -94,11 +91,11 @@ scene.add(dir);
 }
 
 // --- RENDER LOOP (plus d'animation sur le rectangle) ---
-function render() {
+function animate() {
     controls.update(); // nécessaire si enableDamping = true
     renderer.render(scene, camera);
 }
-renderer.setAnimationLoop(render);
+renderer.setAnimationLoop(animate);
 
 // --- RESPONSIVE ---
 window.addEventListener('resize', () => {
